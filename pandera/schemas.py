@@ -2291,7 +2291,9 @@ def _pandas_obj_to_validate(
     return (
         dataframe_or_series
         if not pandas_obj_subsample
-        else pd.concat(pandas_obj_subsample).drop_duplicates()
+        else pd.concat(pandas_obj_subsample).pipe(
+            lambda x: x[~x.index.duplicated()]
+        )
     )
 
 
